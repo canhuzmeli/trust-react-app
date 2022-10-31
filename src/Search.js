@@ -10,22 +10,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
+import ReactDOM from 'react-dom';
+import Statistics from './Statistics';
 
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
+
+const data2 = '{ "count_transactions": 1002, "count_unique_from": 243, "count_unique_to": 2, "count_to_from_intersection": 0, "unique_from_transaction_ratio": 0.24251497005988024, "mean_timestamp_difference": 227958.0889110889, "median_timestamp_difference": 18440, "mean_median_diff_timestamp": 209518.0889110889, "count_max_repeated_from": 292, "count_max_repeated_to": 1001, "mean_gas_used": 47597.48902195609, "median_gas_used": 25137.5, "mean_median_diff_gas_used": 22459.98902195609, "count_empty_input": 198, "mean_value": 11887.285589908171, "median_value": 0.0, "mean_median_diff_value": 11887.285589908171, "oldest_transaction_age": 1.2, "count_unique_methodid": 41, "active_duration:": 228186047, "newest_transaction_age": 0.2, "max_transaction_value": 11901464.23948, "min_transaction_value": 0.0, "account_value": 339271.32289 }';
 
 export default function Search() {
   const handleSubmit = (event) => {
@@ -33,8 +24,9 @@ export default function Search() {
     const data = new FormData(event.currentTarget);
     if(data.get('account').toString().match("^0x[a-fA-F0-9]{40}$") != null){
       console.log({
-        account: data.get('account')        
+        account: data.get('account')                
       });
+      ReactDOM.render(<Statistics json_data={data2} />, document.querySelector("#statistics_div"))
     }
   };
 
@@ -73,7 +65,6 @@ export default function Search() {
               
               </Grid>
               <Grid item xs={2} >
-                
                   <Button
                   type="submit"
                   fullWidth
@@ -83,12 +74,8 @@ export default function Search() {
                 >
                   Search
                 </Button>
-                
               </Grid>
           </Grid>
-        
-        
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
