@@ -1,30 +1,11 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import TroubleshootTwoTone from '@mui/icons-material/TroubleshootTwoTone';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 
 const theme = createTheme();
-
-
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 export default function Statistics(json_data) {
   const handleSubmit = (event) => {
@@ -72,10 +53,8 @@ export default function Statistics(json_data) {
             </Typography>
           </Grid>
         </Grid>
-
-
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
+    
   );
 }
