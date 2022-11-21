@@ -11,9 +11,9 @@ export default function Statistics(json_data) {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
-
-  const data = JSON.parse(json_data["json_data"]);
-  
+  console.log(json_data)
+  const data = json_data["json_data"]
+  //const data = JSON.parse(json_data)
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="lg">
