@@ -1,0 +1,28 @@
+
+{
+  "count_transactions": 16,
+  "count_unique_from": 1,
+  "count_unique_to": 1,
+  "count_to_from_intersection": 0,
+  "unique_from_transaction_ratio": 0.0625,
+  "mean_timestamp_difference": 46261.4,
+  "median_timestamp_difference": 2872,
+  "mean_median_diff_timestamp": 43389.4,
+  "count_max_repeated_from": 16,
+  "count_max_repeated_to": 16,
+  "mean_gas_used": 21000.0,
+  "median_gas_used": 21000.0,
+  "mean_median_diff_gas_used": 0.0,
+  "count_empty_input": 16,
+  "mean_value": 38.74375,
+  "median_value": 36.275,
+  "mean_median_diff_value": 2.46875,
+  "oldest_transaction_age": 1507704484,
+  "count_unique_methodid": 1,
+  "active_duration:": 693921,
+  "newest_transaction_age": 1508398405,
+  "max_transaction_value": 81.57,
+  "min_transaction_value": 1.0,
+  "account_value": 619.9000000077777,
+  "score": 35.225887222397816
+}

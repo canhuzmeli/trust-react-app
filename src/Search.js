@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom';
 import Statistics from './Statistics';
 import CircularIndeterminate from './CircularIndeterminate';
 import StatusMessage from './StatusMessage';
+import ScoreInformation from './ScoreInformation';
 import {
   GoogleReCaptchaProvider,
   useGoogleReCaptcha,
@@ -74,6 +75,7 @@ export default function Search() {
         .then(data => {
           setLoading(false) 
           ReactDOM.render(<Statistics json_data={data} />, document.querySelector("#statistics_div"))
+          ReactDOM.render(<ScoreInformation score={data.score} />, document.querySelector("#score_div"))
         })
         .catch((error) => {
           setError("Wallet data not accessible"); 
