@@ -13,7 +13,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import ReactDOM from 'react-dom';
 import Statistics from './Statistics';
-import Copyright from './Copyright';
+import CircularIndeterminate from './CircularIndeterminate';
+import StatusMessage from './StatusMessage';
 import {
   GoogleReCaptchaProvider,
   useGoogleReCaptcha,
@@ -27,14 +28,32 @@ import {
 const captcha_site_key = "6Lcvg-QiAAAAANcAR9peIWQYW8KsMRElW2k1BwXv";
 const theme = createTheme();
 
+function showError(error){
+  if( error == null || error == ""){
+    ReactDOM.render(<p></p>, document.querySelector("#error_div"))
+  }else{
+    ReactDOM.render(<StatusMessage message={error} />, document.querySelector("#error_div"))
+  }
+}
+function showLoading(loading){
+  loading ? ReactDOM.render(<CircularIndeterminate />, document.querySelector("#loading_div")) : ReactDOM.render(<div></div>, document.querySelector("#loading_div"))
+}
 
 export default function Search() {
   const [token, setToken] = useState();
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  useEffect(() => {
+    showError(error);
+  }, [error])
+  useEffect(() => {
+    showLoading(loading);
+  }, [loading])
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true)
+    setError(null); 
     const form_data = new FormData(event.currentTarget);
     form_data.append("g-recaptcha-response", token)
     //https://70vikclej2.execute-api.us-east-1.amazonaws.com/test/getaccountdata
@@ -44,11 +63,30 @@ export default function Search() {
         c_token: form_data.get('g-recaptcha-response')                
       });
       var obj;
-      fetch('/test/getaccountdata?account_id='+form_data.get('account')+'&captcha='+form_data.get('g-recaptcha-response')) 
-      .then(response => response.json())
-      .then(data => {
-        ReactDOM.render(<Statistics json_data={data} />, document.querySelector("#statistics_div"))
-       });
+      try{
+         fetch('/test/getaccountdata?account_id='+form_data.get('account')+'&captcha='+form_data.get('g-recaptcha-response')) 
+        .then(response => response.json())
+        .catch(err => {     
+          setLoading(false)      
+          throw new Error("Wallet data not accessible")
+                  
+        })
+        .then(data => {
+          setLoading(false) 
+          ReactDOM.render(<Statistics json_data={data} />, document.querySelector("#statistics_div"))
+        })
+        .catch((error) => {
+          setError("Wallet data not accessible"); 
+          setLoading(false)  
+        });
+        ;
+      }catch(err){
+        setError(err);   
+        setLoading(false)  
+      }
+    }else{
+      setError("Please enter a valid wallet ID"); 
+      setLoading(false)    
     }
   };
 
