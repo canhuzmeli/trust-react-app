@@ -108,7 +108,7 @@ export default function Search() {
               <TroubleshootTwoTone />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Ethereum Account
+              Ethereum Address
             </Typography>
           </Box>
           <GoogleReCaptchaProvider reCaptchaKey={captcha_site_key}>
