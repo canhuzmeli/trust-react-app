@@ -89,10 +89,7 @@ export default function Search() {
     form_data.append("g-recaptcha-response", token)
     //https://70vikclej2.execute-api.us-east-1.amazonaws.com/test/getaccountdata
     if(form_data.get('account').toString().match("^0x[a-fA-F0-9]{40}$") != null){
-      console.log({
-        account: form_data.get('account'), 
-        c_token: form_data.get('g-recaptcha-response')                
-      });
+      
       var obj;
       try{
          fetch('/test/getaccountdata?account_id='+form_data.get('account')+'&captcha='+form_data.get('g-recaptcha-response')) 
