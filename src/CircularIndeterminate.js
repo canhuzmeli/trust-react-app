@@ -5,16 +5,16 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const theme = createTheme();
+
 export default function CircularIndeterminate() {
   return (
-    <ThemeProvider theme={theme}>
+    <div id="loading_div">
       <Container component="main" maxWidth="sm">
-        <CssBaseline />
+        
           <Box sx={{ display: 'flex', alignItems: 'center'}}>
             <CircularProgress />
           </Box>
       </Container>
-    </ThemeProvider>
+      </div>
   );
 }
