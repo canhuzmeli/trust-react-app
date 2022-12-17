@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import { useState, useEffect } from "react";
+import { useState, useEffect,useCallback } from "react";
 import Box from '@mui/material/Box';
 import TroubleshootTwoTone from '@mui/icons-material/TroubleshootTwoTone';
 import Typography from '@mui/material/Typography';
@@ -58,6 +58,32 @@ export default function Search() {
   const [mode, setMode] = React.useState('light');
 
   useEffect(() => {
+    const loadScriptByURL = (id, url, callback) => {
+      const isScriptExist = document.getElementById(id);
+   
+      if (!isScriptExist) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        script.id = id;
+        script.onload = function () {
+          if (callback) callback();
+        };
+        document.body.appendChild(script);
+      }
+   
+      if (isScriptExist && callback) callback();
+    }
+   
+    // load the script by passing the URL
+    loadScriptByURL("recaptcha-key", `https://www.google.com/recaptcha/api.js?render=${captcha_site_key}`, function () {
+      console.log("Script loaded!");
+    });
+  }, []);
+
+
+
+  useEffect(() => {
     showError(error);
   }, [error])
   useEffect(() => {
@@ -86,43 +112,51 @@ export default function Search() {
     setLoading(true)
     setError(null); 
     const form_data = new FormData(event.currentTarget);
-    form_data.append("g-recaptcha-response", token)
+    
+
+    
     //https://70vikclej2.execute-api.us-east-1.amazonaws.com/test/getaccountdata
     if(form_data.get('account').toString().match("^0x[a-fA-F0-9]{40}$") != null){
       
       var obj;
-      try{
-         fetch('/test/getaccountdata?account_id='+form_data.get('account')+'&captcha='+form_data.get('g-recaptcha-response')) 
-        .then(response => response.json())
-        .catch(err => { 
-          console.info(err)    
-          setLoading(false)      
-          throw new Error("Wallet data not accessible")
-                  
-        })
-        .then(data => {
-          setLoading(false) 
-          const statistics_div = ReactDOM.createRoot(document.getElementById("statistics_div"));
-          statistics_div.render(
-            <Statistics json_data={data} />
-          );
-          const score_div = ReactDOM.createRoot(document.getElementById("score_div"));
-          score_div.render(
-            <ScoreInformation score={data.score} />
-          );
-          //ReactDOM.render(<ScoreInformation score={data.score} />, document.querySelector("#score_div"))
-        })
-        .catch((error) => {
-          console.info(error)
-          setError("Wallet data not accessible"); 
-          setLoading(false)  
+      window.grecaptcha.ready(() => {
+        window.grecaptcha.execute(captcha_site_key, { action: 'submit' }).then(token => {
+          try{
+            
+            fetch('/test/getaccountdata?account_id='+form_data.get('account')+'&captcha='+token) 
+           .then(response => response.json())
+           .catch(err => { 
+             console.info(err)    
+             setLoading(false)      
+             throw new Error("Wallet data not accessible")
+                     
+           })
+           .then(data => {
+             setLoading(false) 
+             const statistics_div = ReactDOM.createRoot(document.getElementById("statistics_div"));
+             statistics_div.render(
+               <Statistics json_data={data} />
+             );
+             const score_div = ReactDOM.createRoot(document.getElementById("score_div"));
+             score_div.render(
+               <ScoreInformation score={data.score} />
+             );
+             //ReactDOM.render(<ScoreInformation score={data.score} />, document.querySelector("#score_div"))
+           })
+           .catch((error) => {
+             console.info(error)
+             setError("Wallet data not accessible"); 
+             setLoading(false)  
+           });
+           ;
+         }catch(err){
+           console.info(error)
+           setError(err);   
+           setLoading(false)  
+         }
         });
-        ;
-      }catch(err){
-        console.info(error)
-        setError(err);   
-        setLoading(false)  
-      }
+      });
+      
     }else{
       setError("Please enter a valid wallet ID"); 
       setLoading(false)    
@@ -179,11 +213,7 @@ export default function Search() {
                     Search
                   </Button>
                 </Grid>
-                <GoogleReCaptcha
-                  onVerify={token => {
-                    setToken(token)
-                  }}
-                />
+                <GoogleReCaptcha/>
               </Grid>
             
               </GoogleReCaptchaProvider>

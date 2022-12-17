@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness5Icon from '@mui/icons-material/Brightness5';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -42,7 +42,7 @@ export default function ToggleColorMode({parentCallback}) {
          <Box variant='contained' sx={{ position: "fixed", top: 0, right: 0, zIndex: 2000  }}>
             {theme.palette.mode} 
             <IconButton  onClick={colorMode.toggleColorMode} color="inherit">
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            {theme.palette.mode === 'dark' ? <Brightness4Icon /> :  <Brightness5Icon />}
             </IconButton>
          </Box>
        </ThemeProvider>
