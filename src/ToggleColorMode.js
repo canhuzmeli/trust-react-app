@@ -46,6 +46,6 @@ export default function ToggleColorMode({parentCallback}) {
             </IconButton>
          </Box>
        </ThemeProvider>
-     </ColorModeContext.Provider>
+     </ColorModeContext.Provider> 
    );
  }
