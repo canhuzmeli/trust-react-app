@@ -27,7 +27,7 @@ import {
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
-const captcha_site_key = "6Lcvg-QiAAAAANcAR9peIWQYW8KsMRElW2k1BwXv";
+
 
 function showError(error){
   if( error == null || error == ""){
