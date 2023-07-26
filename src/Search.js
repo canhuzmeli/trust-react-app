@@ -22,7 +22,7 @@ import {
   useGoogleReCaptcha,
   GoogleReCaptcha
 } from "react-google-recaptcha-v3";
-
+import { captcha_site_key } from "./authentication.js";
 
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
