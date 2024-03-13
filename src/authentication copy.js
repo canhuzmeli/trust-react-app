@@ -1,1 +1,0 @@
-const captcha_site_key = "ask repository owner/read read.me";
