@@ -6,6 +6,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+## Authentication for the Captcha
+
+To get started you wil need to update the details in the file `authentication copy.js`
+Please copy this file and once you have the credentials name it `authentication.js`
+Because the `authentication.js` file is in the .gitignore the credentials won't make their way to github.
+### `npm install` 
+Run npm install to install the appropriate packages on your local environment.
 ### `npm start`
 
 Runs the app in the development mode.\
